@@ -1,0 +1,92 @@
+{
+  "libName": "tmc5161",
+  "manufacturer": "Trinamic Motion Control",
+  "description": "TMC5161 SPI interface",
+  "version": "",
+  "eelVersion": "3",
+  "shoppingCarLinks": {},
+  "requires": [
+    "embedded",
+    "gpio",
+    "spi"
+  ],
+  "elements": [
+    {
+      "name": "TMC5161",
+      "type": "EmbeddedTMC5161",
+      "icon": "EmbeddedTouch.svg",
+      "defaultAbility": "setVelocity",
+      "defaultTrigger": "velocitySet",
+      "hidden": false,
+      "abilities": [
+        {
+          "name": "setup",
+          "hidden": true,
+          "triggers": []
+        },
+        {
+          "name": "setVelocity",
+          "hidden": false,
+          "triggers": ["velocitySet"]
+        },
+        {
+          "name": "setAcceleration",
+          "hidden": false,
+          "triggers": ["accelerationSet"]
+        },
+        {
+          "name": "moveToPosition",
+          "hidden": false,
+          "triggers": ["movedToPosition"]
+        },
+        {
+          "name": "setDirection",
+          "hidden": false,
+          "triggers": ["directionSet"]
+        },
+        {
+          "name": "stopMotor",
+          "hidden": false,
+          "triggers": ["motorStopped"]
+        }
+      ],
+      "properties": [
+        {
+          "name": "gpioDriverIntance",
+          "input": "driverInstance",
+          "driverType": "gpio"
+        },
+        {
+          "name": "csPin",
+          "input": "number",
+          "value": "P_CS"
+        }
+      ],
+      "triggers": [],
+      "variables": [
+        {
+        	    "name": "handle",
+        	    "type": "ATMO_DriverInstanceHandle_t"
+        }
+      ],
+      "language": {
+        "en-US": {
+          "EmbeddedTMC5161": "TMC5161",
+          "setVelocity": "Set VMAX",
+          "velocitySet": "VMAX set",
+          "setAcceleration": "Set AMAX",
+          "accelerationSet": "AMAX set",
+          "moveToPosition": "Move motor to position X",
+          "movedToPosition": "Motor Moved to Position X",
+          "moveBy": "Move Motor by X Ticks",
+          "setDirection": "Set Direction",
+          "directionSet": "Direction set",
+          "stopMotor": "Stop Motor",
+          "motorStopped": "Motor stopped",
+          "gpioDriverIntance": "GPIO Driver Instance",
+          "csPin": "Chip Select Pin"
+          }
+        }
+    }
+  ]
+}
