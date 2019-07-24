@@ -90,26 +90,26 @@ static void _spi_exchange(uint8_t channel, uint8_t *data, size_t length)
 static void _tmc5161_config(uint8_t channel)
 {
 	// Example configuration from data sheet
-	tmc5161_writeInt(channel, TMC5161_DRV_CONF, 0x20002);
-	tmc5161_writeInt(channel, TMC5161_CHOPCONF, 0x100C3);
-	//tmc5161_writeInt(channel, TMC5161_IHOLD_IRUN, 0x61F0A);
+	tmc5161_writeInt(channel, TMC5161_DRV_CONF, 0x20002);			// DRV_CONF: BBMTIME=2, BBMCLKS=0, OTSEL=2(136°C), DRVSTR.=0
+	tmc5161_writeInt(channel, TMC5161_CHOPCONF, 0x100C3); 		// CHOPCONF: TOFF=3, HSTRT=4, HEND=1, TBL=2, CHM=0 (SpreadCycle)
+	//tmc5161_writeInt(channel, TMC5161_IHOLD_IRUN, 0x61F0A);	// IHOLD_IRUN: IHOLD=10,IRUN=31 (max. current), IHOLDDELAY=6
 	tmc5161_writeInt(channel, TMC5161_IHOLD_IRUN, 10 << TMC5161_IHOLDDELAY_SHIFT | 31 << TMC5161_IRUN_SHIFT | 1 << TMC5161_IHOLD_SHIFT);
-	tmc5161_writeInt(channel, TMC5161_TPOWERDOWN, 0x0A);
-	tmc5161_writeInt(channel, TMC5161_GCONF, 0x04);
-	tmc5161_writeInt(channel, TMC5161_TPWMTHRS, 0x1F4);
+	tmc5161_writeInt(channel, TMC5161_TPOWERDOWN, 0x0A);			// TPOWERDOWN=10: Delay before power down in stand still
+	tmc5161_writeInt(channel, TMC5161_GCONF, 0x04);						// EN_PWM_MODE=1 enables StealthChop(with default PWM_CONF)
+	tmc5161_writeInt(channel, TMC5161_TPWMTHRS, 0x1F4);				// TPWM_THRS=500 yields a switching velocity about 35000 = ca. 30RPM
 
 	/* Current configuration */
-	tmc5161_writeInt(channel, TMC5161_GLOBAL_SCALER, 60);	// Global scalar for max motor current at IRUN (1A rms)
+	tmc5161_writeInt(channel, TMC5161_GLOBAL_SCALER, 60);			// Global scalar for max motor current at IRUN (1A rms)
 
 	// Motion parameters
-	tmc5161_writeInt(channel, TMC5161_A1, 1000);
-	tmc5161_writeInt(channel, TMC5161_V1, 50000);
-	tmc5161_writeInt(channel, TMC5161_AMAX, 500);
-	tmc5161_writeInt(channel, TMC5161_VMAX, 200000);
-	tmc5161_writeInt(channel, TMC5161_DMAX, 700);
-	tmc5161_writeInt(channel, TMC5161_D1, 1400);
-	tmc5161_writeInt(channel, TMC5161_VSTOP, 10);
-	tmc5161_writeInt(channel, TMC5161_RAMPMODE, 0);
+	tmc5161_writeInt(channel, TMC5161_A1, 1000);							// First acceleration to V1
+	tmc5161_writeInt(channel, TMC5161_V1, 50000);							// Initial velocity
+	tmc5161_writeInt(channel, TMC5161_AMAX, 500);							// Acceleration above V1
+	tmc5161_writeInt(channel, TMC5161_VMAX, 200000);					// Max velocity
+	tmc5161_writeInt(channel, TMC5161_DMAX, 700);							// Deceleration above V1
+	tmc5161_writeInt(channel, TMC5161_D1, 1400);							// Deceleration from V1 to VSTOP
+	tmc5161_writeInt(channel, TMC5161_VSTOP, 10);							// Stop velocity (near 0)
+	tmc5161_writeInt(channel, TMC5161_RAMPMODE, 0);						// Positioning mode
 }
 
 /******************************************************************************/
